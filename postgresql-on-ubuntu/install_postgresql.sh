@@ -26,6 +26,12 @@
 # Author: Full Scale 180 Inc.
 
 # You must be root to run this script
+
+# logging
+exec 3>&1 4>&2
+trap 'exec 2>&4 1>&3' 0 1 2 3
+exec 1>/tmp/postgres-install-log.out 2>&1
+
 if [ "${UID}" -ne 0 ];
 then
     log "Script executed without root permissions"
