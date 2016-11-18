@@ -27,6 +27,9 @@
 
 # You must be root to run this script
 
+# exit this script without running it (DEBUGGING)
+exit 0
+
 sudo -i
 
 # logging
