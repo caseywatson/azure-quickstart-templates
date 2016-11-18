@@ -10,10 +10,10 @@
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-#
+# 
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-#
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,14 +27,10 @@
 
 # You must be root to run this script
 
-sudo -i
-
 # logging
 exec 3>&1 4>&2
 trap 'exec 2>&4 1>&3' 0 1 2 3
 exec 1>/tmp/postgres-install-log.out 2>&1
-
-echo "Running as $(whoami)"
 
 if [ "${UID}" -ne 0 ];
 then
@@ -60,7 +56,7 @@ fi
 
 # Get today's date into YYYYMMDD format
 now=$(date +"%Y%m%d")
-
+ 
 # Get passed in parameters $1, $2, $3, $4, and others...
 MASTERIP=""
 SUBNETADDRESS=""
@@ -74,7 +70,7 @@ while getopts :m:s:t:p: optname; do
     m)
       MASTERIP=${OPTARG}
       ;;
-    s) #Data storage subnet space
+  	s) #Data storage subnet space
       SUBNETADDRESS=${OPTARG}
       ;;
     t) #Type of node (MASTER/SLAVE)
@@ -109,7 +105,7 @@ install_postgresql_service() {
 	then
 	  apt-get -y install postgresql=9.3* postgresql-contrib=9.3* postgresql-client=9.3*
 	fi
-
+	
 	logger "Done installing PostgreSQL..."
 }
 
@@ -137,7 +133,7 @@ setup_datadisks() {
 
 configure_streaming_replication() {
 	logger "Starting configuring PostgreSQL streaming replication..."
-
+	
 	# Configure the MASTER node
 	if [ "$NODETYPE" == "MASTER" ];
 	then
@@ -163,7 +159,7 @@ configure_streaming_replication() {
 		echo "host replication replicator $SUBNETADDRESS md5" >> pg_hba.conf
 		echo "hostssl replication replicator $SUBNETADDRESS md5" >> pg_hba.conf
 		echo "" >> pg_hba.conf
-
+			
 		logger "Updated pg_hba.conf"
 		echo "Updated pg_hba.conf"
 	fi
@@ -185,7 +181,7 @@ configure_streaming_replication() {
 		echo "archive_command = 'cd .'" >> postgresql.conf
 		echo "hot_standby = on" >> postgresql.conf
 		echo "" >> postgresql.conf
-
+		
 		logger "Updated postgresql.conf"
 		echo "Updated postgresql.conf"
 	fi
@@ -200,16 +196,16 @@ configure_streaming_replication() {
 		# Make a binary copy of the database cluster files while making sure the system is put in and out of backup mode automatically
 		logger "Make binary copy of the data directory from master"
 		sudo PGPASSWORD=$PGPASSWORD -u postgres pg_basebackup -h $MASTERIP -D /var/lib/kafkadir/main -U replicator -x
-
+		 
 		# Create recovery file
 		logger "Create recovery.conf file"
 		cd /var/lib/kafkadir/main/
-
+		
 		sudo -u postgres echo "standby_mode = 'on'" > recovery.conf
 		sudo -u postgres echo "primary_conninfo = 'host=$MASTERIP port=5432 user=replicator password=$PGPASSWORD'" >> recovery.conf
 		sudo -u postgres echo "trigger_file = '/var/lib/kafkadir/main/failover'" >> recovery.conf
 	fi
-
+	
 	logger "Done configuring PostgreSQL streaming replication"
 }
 
