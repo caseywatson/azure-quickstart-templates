@@ -126,7 +126,7 @@ setup_datadisks() {
 		mv -f /var/lib/postgresql/9.3/main $MOUNTPOINT
 
 		# Create symbolic link so that configuration files continue to use the default folders
-		logger "Create symbolic link from /var/lib/postgresql/9.3/main to $MOUNTPOINT/kafkadir"
+		logger "Create symbolic link from /var/lib/postgresql/9.3/main to $MOUNTPOINT/main"
 		ln -s $MOUNTPOINT/main /var/lib/postgresql/9.3/main
 
         chown postgres:postgres $MOUNTPOINT/main
@@ -194,19 +194,19 @@ configure_streaming_replication() {
 	then
 		# Remove all files from the slave data directory
 		logger "Remove all files from the slave data directory"
-		sudo -u postgres rm -rf /var/lib/kafkadir/main
+		sudo -u postgres rm -rf /var/lib/postgresql/9.3/main
 
 		# Make a binary copy of the database cluster files while making sure the system is put in and out of backup mode automatically
 		logger "Make binary copy of the data directory from master"
-		sudo PGPASSWORD=$PGPASSWORD -u postgres pg_basebackup -h $MASTERIP -D /var/lib/kafkadir/main -U replicator -x
+		sudo PGPASSWORD=$PGPASSWORD -u postgres pg_basebackup -h $MASTERIP -D /var/lib/postgresql/9.3/main -U replicator -x
 		 
 		# Create recovery file
 		logger "Create recovery.conf file"
-		cd /var/lib/kafkadir/main/
+		cd /var/lib/postgresql/9.3/main/
 		
 		sudo -u postgres echo "standby_mode = 'on'" > recovery.conf
 		sudo -u postgres echo "primary_conninfo = 'host=$MASTERIP port=5432 user=replicator password=$PGPASSWORD'" >> recovery.conf
-		sudo -u postgres echo "trigger_file = '/var/lib/kafkadir/main/failover'" >> recovery.conf
+		sudo -u postgres echo "trigger_file = '/var/lib/postgresql/9.3/main/failover'" >> recovery.conf
 	fi
 	
 	logger "Done configuring PostgreSQL streaming replication"
