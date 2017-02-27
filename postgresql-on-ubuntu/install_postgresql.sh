@@ -114,20 +114,20 @@ setup_datadisks() {
 	MOUNTPOINT="/datadisks/disk1"
 
 	# Move database files to the striped disk
-	if [ -L /var/lib/kafkadir ];
+	if [ -L /var/lib/postgresql/9.3/main ];
 	then
-		logger "Symbolic link from /var/lib/kafkadir already exists"
-		echo "Symbolic link from /var/lib/kafkadir already exists"
+		logger "Symbolic link from /var/lib/postgresql/9.3/main already exists"
+		echo "Symbolic link from /var/lib/postgresql/9.3/main already exists"
 	else
-		logger "Moving  data to the $MOUNTPOINT/kafkadir"
-		echo "Moving PostgreSQL data to the $MOUNTPOINT/kafkadir"
+		logger "Moving  data to the $MOUNTPOINT/main"
+		echo "Moving PostgreSQL data to the $MOUNTPOINT/main"
 		service postgresql stop
-		mkdir $MOUNTPOINT/kafkadir
-		mv -f /var/lib/kafkadir $MOUNTPOINT/kafkadir
+		mkdir $MOUNTPOINT/main
+		mv -f /var/lib/postgresql/9.3/main $MOUNTPOINT/main
 
 		# Create symbolic link so that configuration files continue to use the default folders
-		logger "Create symbolic link from /var/lib/kafkadir to $MOUNTPOINT/kafkadir"
-		ln -s $MOUNTPOINT/kafkadir /var/lib/kafkadir
+		logger "Create symbolic link from /var/lib/postgresql/9.3/main to $MOUNTPOINT/kafkadir"
+		ln -s $MOUNTPOINT/main /var/lib/postgresql/9.3/main
 	fi
 }
 
