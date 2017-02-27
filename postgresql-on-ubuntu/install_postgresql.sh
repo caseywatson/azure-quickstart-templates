@@ -194,11 +194,11 @@ configure_streaming_replication() {
 	then
 		# Remove all files from the slave data directory
 		logger "Remove all files from the slave data directory"
-		sudo -u postgres rm -rf /var/lib/postgresql/9.3/main
+		sudo -u postgres rm -rf /datadisks/disk1/main
 
 		# Make a binary copy of the database cluster files while making sure the system is put in and out of backup mode automatically
 		logger "Make binary copy of the data directory from master"
-		sudo PGPASSWORD=$PGPASSWORD -u postgres pg_basebackup -h $MASTERIP -D /var/lib/postgresql/9.3/main -U replicator -x
+		sudo PGPASSWORD=$PGPASSWORD -u postgres pg_basebackup -h $MASTERIP -D /datadisks/disk1/main -U replicator -x
 		 
 		# Create recovery file
 		logger "Create recovery.conf file"
