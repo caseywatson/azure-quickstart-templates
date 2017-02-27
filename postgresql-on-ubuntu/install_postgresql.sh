@@ -122,12 +122,15 @@ setup_datadisks() {
 		logger "Moving  data to the $MOUNTPOINT/main"
 		echo "Moving PostgreSQL data to the $MOUNTPOINT/main"
 		service postgresql stop
-		mkdir $MOUNTPOINT/main
-		mv -f /var/lib/postgresql/9.3/main $MOUNTPOINT/main
+		# mkdir $MOUNTPOINT/main
+		mv -f /var/lib/postgresql/9.3/main $MOUNTPOINT
 
 		# Create symbolic link so that configuration files continue to use the default folders
 		logger "Create symbolic link from /var/lib/postgresql/9.3/main to $MOUNTPOINT/kafkadir"
 		ln -s $MOUNTPOINT/main /var/lib/postgresql/9.3/main
+
+        chown postgres:postgres $MOUNTPOINT/main
+        chmod 0700 $MOUNTPOINT/main
 	fi
 }
 
