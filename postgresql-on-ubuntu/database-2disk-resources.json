@@ -132,7 +132,7 @@
         "storageProfile": {
           "imageReference": "[parameters('osSettings').imageReference]",
           "osDisk": {
-            "name": "osdisk",
+            "name": "[concat(variables('vmName'), copyIndex(), '-osDisk')]",
             "caching": "ReadWrite",
             "createOption": "FromImage",
             "managedDisk": {
