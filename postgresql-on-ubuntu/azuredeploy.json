@@ -230,7 +230,7 @@
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
-              "namespace": "ms"
+              "namespace": "psqldb-master"
             }
           },
           "storageSettings": {
@@ -282,7 +282,7 @@
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
-              "namespace": "sl"
+              "namespace": "psqldb-slave"
             }
           },
           "storageSettings": {
@@ -330,7 +330,7 @@
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
-              "namespace": "jumpbox"
+              "namespace": "psqldb-jumpbox"
             }
           },
           "adminPassword": {
