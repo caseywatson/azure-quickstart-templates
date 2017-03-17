@@ -69,7 +69,7 @@
     "templateBaseUrl": "https://raw.githubusercontent.com/caseywatson/azure-quickstart-templates/master/postgresql-on-ubuntu/",
     "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
     "tshirtSizeSmall": {
-      "vmSize": "Standard_A1",
+      "vmSize": "Standard_DS2_v2",
       "diskSize": 1023,
       "vmTemplate": "[concat(variables('templateBaseUrl'), 'database-2disk-resources.json')]",
       "vmCount": 2,
