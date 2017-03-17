@@ -66,7 +66,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/tstringer/azure-quickstart-templates/master/postgresql-on-ubuntu/",
+    "templateBaseUrl": "https://raw.githubusercontent.com/caseywatson/azure-quickstart-templates/master/postgresql-on-ubuntu/",
     "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
     "tshirtSizeSmall": {
       "vmSize": "Standard_A1",
