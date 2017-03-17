@@ -146,7 +146,7 @@
                 "id": "[resourceId('Microsoft.Compute/disks', concat(variables('vmName'), copyIndex(), '-dataDisk1'))]"
               },
               "caching": "None",
-              "createOption": "Empty"
+              "createOption": "Attach"
             },
             {
               "lun": 1,
@@ -154,7 +154,7 @@
                 "id": "[resourceId('Microsoft.Compute/disks', concat(variables('vmName'), copyIndex(), '-dataDisk2'))]"
               },
               "caching": "None",
-              "createOption": "Empty"
+              "createOption": "Attach"
             }
           ]
         },
