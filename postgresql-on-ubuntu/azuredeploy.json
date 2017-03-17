@@ -172,7 +172,7 @@
       }
     },
     "availabilitySetSettings": {
-      "name": "pgsqlAvailabilitySet",
+      "name": "psqldb-avSet",
       "fdCount": 3,
       "udCount": 5
     }
