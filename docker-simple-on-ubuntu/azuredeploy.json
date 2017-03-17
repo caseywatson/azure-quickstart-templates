@@ -62,7 +62,7 @@
     "publicIPAddressType": "Dynamic",
     "vmStorageAccountContainerName": "vhds",
     "vmSize": "Standard_F1",
-    "avSetId": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]
+    "avSetId": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
     "subnetRef": "[concat(variables('vnetID'), '/subnets/', parameters('subnetName'))]"
   },
