@@ -37,9 +37,7 @@
     "vmName": "[concat(variables('namespace'), 'vm')]",
     "nicName": "[concat(variables('namespace'), 'nic')]",
     "adminUsername": "[parameters('commonSettings').adminUsername]",
-    "vmCount": "[parameters('machineSettings').vmCount]",
-    "dataDisk1Name": "[concat(variables(vmName), copyIndex(), '-dataDisk1')]",
-    "dataDisk2Name": "[concat(variables(vmName), copyIndex(), '-dataDisk2')]"
+    "vmCount": "[parameters('machineSettings').vmCount]"
   },
   "resources": [
     {
@@ -67,9 +65,13 @@
     },
     {
       "type": "Microsoft.Compute/disks",
-      "name": "[variables(dataDisk1Name)]",
+      "name": "[concat(variables(vmName), copyIndex(), '-dataDisk1')]",
       "apiVersion": "2016-04-30-preview",
       "location": "[resourceGroup().location]",
+      "copy": {
+        "name": "dataDisk1CopyLoop",
+        "count": "[variables('vmCount')]"
+      },
       "properties":
       {
         "creationData":
@@ -83,9 +85,13 @@
     },
     {
       "type": "Microsoft.Compute/disks",
-      "name": "[variables(dataDisk2Name)]",
+      "name": "[concat(variables(vmName), copyIndex(), '-dataDisk2')]",
       "apiVersion": "2016-04-30-preview",
       "location": "[resourceGroup().location]",
+      "copy": {
+        "name": "dataDisk2CopyLoop",
+        "count": "[variables('vmCount')]"
+      },
       "properties":
       {
         "creationData":
@@ -103,7 +109,9 @@
       "name": "[concat(variables('vmName'), copyindex())]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyindex())]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyindex())]",
+        "[resourceId('Microsoft.Compute/disks', concat(variables(vmName), copyIndex(), '-dataDisk1'))]",
+        "[resourceId('Microsoft.Compute/disks', concat(variables(vmName), copyIndex(), '-dataDisk2'))]"
       ],
       "copy": {
         "name": "vmCopyLoop",
@@ -135,7 +143,7 @@
             {
               "lun": 0,
               "managedDisk": {
-                "id": "[resourceId('Microsoft.Compute/disks', variables(dataDisk1Name)]"
+                "id": "[resourceId('Microsoft.Compute/disks', concat(variables(vmName), copyIndex(), '-dataDisk1'))]"
               },
               "caching": "None",
               "createOption": "Empty"
@@ -143,7 +151,7 @@
             {
               "lun": 1,
               "managedDisk": {
-                "id": "[resourceId('Microsoft.Compute/disks', variables(dataDisk2Name)]"
+                "id": "[resourceId('Microsoft.Compute/disks', concat(variables(vmName), copyIndex(), '-dataDisk2'))]"
               },
               "caching": "None",
               "createOption": "Empty"
