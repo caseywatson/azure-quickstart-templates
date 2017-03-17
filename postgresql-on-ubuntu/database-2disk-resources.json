@@ -65,7 +65,7 @@
     },
     {
       "type": "Microsoft.Compute/disks",
-      "name": "[concat(variables(vmName), copyIndex(), '-dataDisk1')]",
+      "name": "[concat(variables('vmName'), copyIndex(), '-dataDisk1')]",
       "apiVersion": "2016-04-30-preview",
       "location": "[resourceGroup().location]",
       "copy": {
@@ -85,7 +85,7 @@
     },
     {
       "type": "Microsoft.Compute/disks",
-      "name": "[concat(variables(vmName), copyIndex(), '-dataDisk2')]",
+      "name": "[concat(variables('vmName'), copyIndex(), '-dataDisk2')]",
       "apiVersion": "2016-04-30-preview",
       "location": "[resourceGroup().location]",
       "copy": {
@@ -110,8 +110,8 @@
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyindex())]",
-        "[resourceId('Microsoft.Compute/disks', concat(variables(vmName), copyIndex(), '-dataDisk1'))]",
-        "[resourceId('Microsoft.Compute/disks', concat(variables(vmName), copyIndex(), '-dataDisk2'))]"
+        "[resourceId('Microsoft.Compute/disks', concat(variables('vmName'), copyIndex(), '-dataDisk1'))]",
+        "[resourceId('Microsoft.Compute/disks', concat(variables('vmName'), copyIndex(), '-dataDisk2'))]"
       ],
       "copy": {
         "name": "vmCopyLoop",
@@ -143,7 +143,7 @@
             {
               "lun": 0,
               "managedDisk": {
-                "id": "[resourceId('Microsoft.Compute/disks', concat(variables(vmName), copyIndex(), '-dataDisk1'))]"
+                "id": "[resourceId('Microsoft.Compute/disks', concat(variables('vmName'), copyIndex(), '-dataDisk1'))]"
               },
               "caching": "None",
               "createOption": "Empty"
@@ -151,7 +151,7 @@
             {
               "lun": 1,
               "managedDisk": {
-                "id": "[resourceId('Microsoft.Compute/disks', concat(variables(vmName), copyIndex(), '-dataDisk2'))]"
+                "id": "[resourceId('Microsoft.Compute/disks', concat(variables('vmName'), copyIndex(), '-dataDisk2'))]"
               },
               "caching": "None",
               "createOption": "Empty"
