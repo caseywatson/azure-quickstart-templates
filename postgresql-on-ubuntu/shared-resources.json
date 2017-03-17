@@ -57,11 +57,14 @@
     {
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('availabilitySetSettings').name]",
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2016-04-30-preview",
       "location": "[resourceGroup().location]",
       "properties": {
         "platformFaultDomainCount": "[parameters('availabilitySetSettings').fdCount]",
         "platformUpdateDomainCount": "[parameters('availabilitySetSettings').udCount]"
+      },
+      "sku": {
+        "name": "Aligned"
       }
     }
   ],
