@@ -132,7 +132,7 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "[concat(parameters('vmName'), '-osdisk')]",
+            "name": "[concat(parameters('vmName'), '-osDisk')]",
             "managedDisk": {
               "storageAccountType": "Standard_LRS"
             },
